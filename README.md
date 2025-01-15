@@ -34,13 +34,8 @@ npm install
 ### Frontend
 cd ../front-end
 npm install
-# 4. Set Environment Variables
 
-Create a .env file in the back-end directory and add the following variables:
-PORT=5000
-GOOGLE_BOOKS_API_KEY=YourGoogleBooksAPIKey
-
-# 5. Start the Application
+# 4. Start the Application
 
 Start the backend server:
     cd back-end
