@@ -21,7 +21,7 @@ BookStore is a web application designed for book enthusiasts. Users can browse t
 
 ### 2. Clone the Repository
 Clone the repository to your local machine using the following command:
-```bash
+bash
 git clone https://github.com/username/BookStore.git
 
 Navigate to the project directory:
