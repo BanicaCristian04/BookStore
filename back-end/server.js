@@ -122,9 +122,51 @@ const passport = require('passport');
         googleId: { type: String },
         created_at: { type: Date, default: Date.now }
     });
+    const books = [
+      {
+        id: 1,
+        title: "Ruperea blestemului",
+        author: "Catalin Ranco Pitu",
+        price: 62.99,
+        image: "https://via.placeholder.com/150",
+        category: "Ficțiune",
+        isNew: true,
+        discount: 10,
+      },
+      {
+        id: 2,
+        title: "Nexus",
+        author: "Yuval Noah Harari",
+        price: 76.5,
+        image: "https://via.placeholder.com/150",
+        category: "Istorie",
+        isNew: false,
+        discount: 20,
+      },
+    ];
 
     const User = mongoose.model('User', userSchema);
 
+    app.get("/books", (req, res) => {
+      const { category } = req.query;
+      const filteredBooks = category
+        ? books.filter((book) => book.category === category)
+        : books;
+      res.json(filteredBooks);
+    });
+    app.get("/books/:id", (req, res) => {
+      const { id } = req.params;
+      const book = books.find((b) => b.id === parseInt(id));
+      if (!book) {
+        return res.status(404).json({ message: "Cartea nu a fost găsită" });
+      }
+      res.json(book);
+    });
+    
+    app.get("/categories", (req, res) => {
+      const categories = [...new Set(books.map((book) => book.category))];
+      res.json(categories);
+    });
     app.post('/register', async (req, res) => {
         const {email, password } = req.body;
         try {

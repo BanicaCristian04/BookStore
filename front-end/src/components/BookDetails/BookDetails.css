@@ -1,0 +1,90 @@
+.book-details-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .book-details-left {
+    flex: 1;
+    max-width: 40%;
+  }
+  
+  .book-details-left img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .book-details-right {
+    flex: 2;
+    max-width: 60%;
+  }
+  
+  .book-details-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .book-details-author {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .book-details-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .book-details-info {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    font-size: 0.9rem;
+  }
+  
+  .book-details-info li {
+    margin-bottom: 10px;
+  }
+  
+  .book-details-purchase {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .book-details-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .add-to-cart-button {
+    padding: 10px 20px;
+    background-color: #ff6f00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: #e65c00;
+  }
+  
+  .book-details-right a {
+    color: #0077cc;
+    text-decoration: none;
+  }
+  
+  .book-details-right a:hover {
+    text-decoration: underline;
+  }
+  
