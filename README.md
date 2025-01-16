@@ -15,34 +15,27 @@ BookStore is a web application designed for book enthusiasts. Users can browse t
 
 ## Installation and Setup Instructions
 
-### 1. Prerequisites
+# 1. Prerequisites
 - **Node.js**: Ensure you have [Node.js](https://nodejs.org/) installed.
 - **Git**: Ensure you have [Git](https://git-scm.com/) installed.
 
-### 2. Clone the Repository
-Clone the repository to your local machine using the following command:
-```bash
-git clone https://github.com/username/BookStore.git
+# 2. Clone the Repository
+Clone the repository to your local machine.
 
 Navigate to the project directory:
 cd BookStore
 
-### 3. Install Dependencies
+# 3. Install Dependencies
 Install the dependencies for both the backend and frontend:
-# Backend
+### Backend
 cd back-end
 npm install
 
-# Frontend
+### Frontend
 cd ../front-end
 npm install
-### 4. Set Environment Variables
 
-Create a .env file in the back-end directory and add the following variables:
-PORT=5000
-GOOGLE_BOOKS_API_KEY=YourGoogleBooksAPIKey
-
-5. Start the Application
+# 4. Start the Application
 
 Start the backend server:
     cd back-end
