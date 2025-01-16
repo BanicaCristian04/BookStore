@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import {useCart} from "../Cart/Cart"
 import "./BookDetails.css";
 
 const BookDetails = () => {
@@ -7,11 +8,13 @@ const BookDetails = () => {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [price,setPrice]=useState(null);
+  const { addToCart } = useCart(); 
   const stripHtmlTags = (html) => {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
   };
+
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -22,6 +25,8 @@ const BookDetails = () => {
           throw new Error("Failed to fetch book details");
         }
         const data = await response.json();
+        const savedPrice= localStorage.getItem(id);
+        setPrice(savedPrice || "Unavailable");
         setBook(data);
       } catch (err) {
         setError(err.message);
@@ -47,7 +52,7 @@ const BookDetails = () => {
 
   return (
     <div className="book-details-container">
-      <div className="book-details-left">
+      <div className="book-image">
         <img
           src={
             book.volumeInfo.imageLinks?.thumbnail ||
@@ -56,29 +61,39 @@ const BookDetails = () => {
           alt={book.volumeInfo.title}
         />
       </div>
-      <div className="book-details-right">
-        <h1 className="book-details-title">{book.volumeInfo.title}</h1>
-        <h3 className="book-details-author">
-          By: {book.volumeInfo.authors?.join(", ")}
-        </h3>
-        <p className="book-details-description">
-        {stripHtmlTags(book.volumeInfo.description || "No description available.")}
+      <div className="book-info">
+        <h1>{book.volumeInfo.title}</h1>
+        <h3>By: {book.volumeInfo.authors?.join(", ")}</h3>
+        <p className="book-description">
+          {stripHtmlTags(
+            book.volumeInfo.description || "No description available."
+          )}
         </p>
-        <ul className="book-details-info">
-          <li>Publisher: {book.volumeInfo.publisher || "Unknown"}</li>
+        <ul className="book-meta">
           <li>
-            Published Date: {book.volumeInfo.publishedDate || "Unknown"}
+            <strong>Publisher:</strong> {book.volumeInfo.publisher || "Unknown"}
           </li>
-          <li>Page Count: {book.volumeInfo.pageCount || "Unknown"}</li>
-          <li>Language: {book.volumeInfo.language || "Unknown"}</li>
+          <li>
+            <strong>Published Date:</strong>{" "}
+            {book.volumeInfo.publishedDate || "Unknown"}
+          </li>
+          <li>
+            <strong>Page Count:</strong> {book.volumeInfo.pageCount || "Unknown"}
+          </li>
+          <li>
+            <strong>Language:</strong> {book.volumeInfo.language || "Unknown"}
+          </li>
         </ul>
-        <div className="book-details-purchase">
-          <span className="book-details-price">
-            {book.saleInfo.listPrice?.amount
-              ? `$${book.saleInfo.listPrice.amount}`
-              : "Price unavailable"}
+        <div className="book-actions">
+        <span className="price">
+            {price !== "Unavailable" ? `$${price}` : "Price unavailable"}
           </span>
-          <button className="add-to-cart-button">Add to Cart</button>
+          <button
+            className="add-to-cart"
+            onClick={() => addToCart(book)}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

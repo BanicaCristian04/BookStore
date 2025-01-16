@@ -122,30 +122,21 @@ const passport = require('passport');
         googleId: { type: String },
         created_at: { type: Date, default: Date.now }
     });
-    const books = [
-      {
-        id: 1,
-        title: "Ruperea blestemului",
-        author: "Catalin Ranco Pitu",
-        price: 62.99,
-        image: "https://via.placeholder.com/150",
-        category: "Ficțiune",
-        isNew: true,
-        discount: 10,
-      },
-      {
-        id: 2,
-        title: "Nexus",
-        author: "Yuval Noah Harari",
-        price: 76.5,
-        image: "https://via.placeholder.com/150",
-        category: "Istorie",
-        isNew: false,
-        discount: 20,
-      },
-    ];
+    const orderSchema = new mongoose.Schema({
+      items: [
+        {
+          title: String,
+          price: Number,
+          quantity: Number,
+        },
+      ],
+      total: Number,
+      createdAt: { type: Date, default: Date.now },
+    });
+    
 
     const User = mongoose.model('User', userSchema);
+    const Order = mongoose.model('Order', orderSchema);
 
     app.get("/books", (req, res) => {
       const { category } = req.query;
@@ -192,6 +183,23 @@ const passport = require('passport');
             console.log('Error during registration:', error.message);
             res.status(500).json({ error: 'Registration failed', details: error.message });
           }
+    });
+    app.post("/orders", async (req, res) => {
+      try {
+        const { items, total } = req.body;
+        
+        if (!items || items.length === 0) {
+          return res.status(400).json({ message: "No items in the order." });
+        }
+    
+        const newOrder = new Order({ items, total });
+        await newOrder.save();
+    
+        res.status(201).json({ message: "Order placed successfully!" });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to place order." });
+      }
     });
     app.post('/login', async (req, res) => {
         const { email, password } = req.body;

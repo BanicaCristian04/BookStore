@@ -1,48 +1,51 @@
 .navbar {
   background-color: #333;
-  padding: 1rem;
   color: white;
-  position: fixed; /* Fix navbar to top */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  left: 0; /* Ensure it starts from the left */
+  right: 0; /* Ensure it stretches to the right */
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 17px); /* Prevent overlapping with scrollbar */
+  box-sizing: border-box; /* Include padding and borders in width */
 }
 
 .navbar-container {
   display: flex;
-  justify-content: flex-end; /* Move items to the right */
+  justify-content: flex-end; /* Push items to the right */
   align-items: center;
-  position: relative; /* Relative for positioning child elements */
-  height: 1rem;
+  width: 100%;
 }
 
 .navbar-menu {
   display: flex;
-  gap: 0.5rem;
-  position: absolute;
-  right: 1rem; /* Push menu to the right */
+  gap: 1.5rem;
+  align-items: center;
 }
 
 .navbar-link {
   color: white;
   text-decoration: none;
-  font-size: 1rem;
-  padding: 0.3rem;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+  position: relative;
 }
 
 .navbar-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  color: #00bcd4;
+}
+.logout-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
-.navbar-logo {
-  position: absolute;
-  right: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
+.logout-button:hover {
+  color: #ff6347;
 }

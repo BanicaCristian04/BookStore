@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {useCart} from "../Cart/Cart"
+import { useCart } from "../Cart/Cart";
 import "./Catalog.css";
 
 const Catalog = () => {
@@ -9,7 +9,7 @@ const Catalog = () => {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("fiction");
   const [page, setPage] = useState(0);
-  const {addToCart}=useCart();
+  const { addToCart } = useCart(); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +32,20 @@ const Catalog = () => {
       }
 
       const data = await response.json();
-      setBooks(data.items || []);
+      const updatedBooks = data.items.map((book) => {
+        if (!book.saleInfo.listPrice) {
+          const savedPrice = localStorage.getItem(book.id);
+          if (!savedPrice) {
+            const randomPrice = (Math.random() * (100 - 10) + 10).toFixed(2);
+            localStorage.setItem(book.id, randomPrice);
+            book.saleInfo = { listPrice: { amount: randomPrice } };
+          } else {
+            book.saleInfo = { listPrice: { amount: savedPrice } };
+          }
+        }
+        return book;
+      });
+      setBooks(updatedBooks);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -44,9 +57,6 @@ const Catalog = () => {
     setQuery(newQuery);
     setPage(0);
   };
-  const generateRandomPrice = () => {
-    return (Math.random() * (100 - 10) + 10).toFixed(2); // Random price between 10 and 100
-  };
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
   };
@@ -57,8 +67,8 @@ const Catalog = () => {
     }
   };
 
-  const handleBookClick = (book, price) => {
-    navigate(`/book/${book.id}`, { state: { price } });
+  const handleBookClick = (book) => {
+    navigate(`/book/${book.id}`);
   };
 
   return (
@@ -83,35 +93,36 @@ const Catalog = () => {
         {error && <p>Error: {error}</p>}
         {!loading &&
           books.map((book) => (
-            <div
-              className="card"
-              key={book.id}
-              onClick={() => handleBookClick(book, book.saleInfo.listPrice?.amount)}>
+            <div className="card" key={book.id}>
               <img
                 src={
                   book.volumeInfo.imageLinks?.thumbnail ||
                   "https://via.placeholder.com/150"
                 }
                 alt={book.volumeInfo.title}
+                onClick={() => handleBookClick(book)}
               />
               <h4>{book.volumeInfo.title}</h4>
               <p>{book.volumeInfo.authors?.join(", ")}</p>
               <p>
                 {book.saleInfo.listPrice?.amount
                   ? `$${book.saleInfo.listPrice.amount}`
-                  : `$${generateRandomPrice()}`}
+                  : "Price not available"}
               </p>
               <button onClick={() => addToCart(book)}>Add to cart</button>
             </div>
+            
           ))}
-      </div>
-      <div className="pagination">
+          <div className="pagination">
         <button onClick={handlePreviousPage} disabled={page === 0}>
           &#8592; Previous
         </button>
         <span>Page {page + 1}</span>
-        <button onClick={handleNextPage}>&#8594; Next</button>
+        <button onClick={handleNextPage}>Next &#8594;</button>
       </div>
+          
+      </div>
+      
     </div>
   );
 };

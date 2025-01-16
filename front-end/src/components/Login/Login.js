@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
 
-const Login = () => {
+const Login = ({setUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword]=useState("");
   const [error, setError] = useState("");
@@ -17,6 +17,7 @@ const Login = () => {
         email,
         password
       });
+      setUser({email});
       navigate('/'); 
     } catch (err) {
       console.error('Login failed:', err.response?.data || err.message);
